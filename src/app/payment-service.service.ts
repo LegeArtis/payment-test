@@ -13,7 +13,10 @@ export class PaymentServiceService {
 
   getPaymentMethods(countryCode) {
     const fullUrl = `${this.url}?${this.key}&${this.countryCode}${countryCode}`;
-
     return this.http.get(fullUrl);
+  }
+
+  getCountry() {
+    return  this.http.get('https://ipinfo.io?token=104ede535d04f1');
   }
 }

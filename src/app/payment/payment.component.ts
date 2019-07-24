@@ -9,8 +9,26 @@ import {PaymentServiceService} from '../payment-service.service';
 export class PaymentComponent implements OnInit {
   amount = 5;
   currency = 'USD';
+  countries = [
+    {
+      name: 'Ukraine',
+      code: 'UA'
+    },
+    {
+      name: 'Russia',
+      code: 'RU'
+    },
+    {
+      name: 'Poland',
+      code: 'PL'
+    },
+    {
+      name: 'Vietnam',
+      code: 'VN'
+    },
+  ];
 
-  paymentMethods: PaymentMethod[];
+  paymentMethods: PaymentMethod[] = [];
   selectedMethod: PaymentMethod;
   cvvValue;
   expMonthValue;
@@ -30,7 +48,24 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.changeCountry('UA');
+       this.paymentService.getCountry().subscribe(value => {
+         if (this.checkCountryPayment(value['country'])) {
+           this.changeCountry(value['country']);
+         } else {
+           this.paymentMethods = null;
+         }
+    });
+  }
+
+  checkCountryPayment(code): boolean {
+    let contain = false;
+    this.countries.forEach(item => {
+      if (item.code === code) {
+        console.log('1');
+        contain = true;
+      }
+    });
+    return contain;
   }
 
   chooseMethod( method: PaymentMethod) {
@@ -38,7 +73,6 @@ export class PaymentComponent implements OnInit {
   }
 
   changeCountry(countryCode) {
-    console.log(countryCode);
     this.paymentService.getPaymentMethods(countryCode).subscribe((value: []) => {
       this.paymentMethods = value;
       console.log(this.paymentMethods);
