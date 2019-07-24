@@ -41,9 +41,14 @@ select {
   padding-left: 10px;
 }
 
+@media only screen and (min-width: 768px){
+  .paymentWindow {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
 .paymentWindow {
-  left: 0;
-  top: 0;
   position: absolute;
   min-width: 320px;
   max-width: 767px;
@@ -58,14 +63,14 @@ select {
 }
 
 .grid {
-  width: 100%;
+  width: 95%;
   position: relative;
   display: grid;
   grid-template-columns: repeat(3, 30%);
   grid-auto-rows: auto;
   grid-column-gap: 2.5%;
   grid-row-gap: 10px;
-  padding: 15px 0 0 2.5%;
+  left: 5%;
 }
 
 .grid img {
@@ -97,16 +102,19 @@ select {
 .cvv_div {
   top: 5px;
   position: absolute;
-  left: 60%;
+  left: 50%;
+  transform: translateX(90%);
 }
 
 
 .expDate_div {
   width: 50%;
+  max-width: 160px;
   height: 100%;
   top: 5px;
   position: absolute;
-  left: 10%;
+  left: 50%;
+  transform: translateX(-80%);
 }
 
 .date {
@@ -131,11 +139,11 @@ select {
 }
 
 #month {
-  left: 10%;
+  left: 5%;
 }
 
 #year {
-  right: 10%;
+  right: 5%;
 }
 
 span {

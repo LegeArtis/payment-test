@@ -15,38 +15,35 @@
     </div>
   </div>
 
+  <form ngNativeValidate #payForm="ngForm" *ngIf="selectedMethod" (ngSubmit)="buttonClick(payForm)">
 
+    <label for="name">Cardholder name</label>
+    <input type="text" name="name" id="name" ngModel required pattern="[A-Za-z\s]+" (keyup)="cardHolderName(name.value)" #name autocomplete="off">
+    <p class="error" *ngIf="wrongName">Cardholder name must contain only latin characters and space between world!</p>
 
+    <label for="cardNumber">Card number</label>
+    <input type="number" name="cardNumber" id="cardNumber" required ngModel #cardNumber (keyup)="cardNumberInput(cardNumber.value)">
+    <p *ngIf="wrongCardNumber" class="error">Incorrect card number!</p>
 
-<form ngNativeValidate #payForm="ngForm" *ngIf="selectedMethod" (ngSubmit)="buttonClick(payForm)">
+    <div class="cvv_exp">
+      <div class="expDate_div">
+        <label for="month">Month / Year</label>
+        <input class="date" type="tel" maxlength="2" minlength="2" name="expDate" id="month" (keyup)="expMonthCheck()" [value]="expMonthValue" [(ngModel)]="expMonthValue" required>
+        <span>/</span>
+        <input class="date" type="tel" maxlength="2" minlength="2" name="expDate" id="year" (keyup)="expYearCheck()" [value]="expYearValue" [(ngModel)]="expYearValue" required>
+      </div>
 
-  <label for="name">Cardholder name</label>
-  <input type="text" name="name" id="name" ngModel required pattern="[A-Za-z\s]+" (change)="cardHolderName(name.value)" #name>
-  <p class="error" *ngIf="nameReg">Cardholder name must contain only characters an space between world!</p>
-
-  <label for="cardNumber">Card number</label>
-  <input type="number" name="cardNumber" id="cardNumber" required ngModel #cardNumber (change)="cardNumberInput(cardNumber.value)">
-  <p *ngIf="numberReg" class="error">Incorrect card number!</p>
-
-  <div class="cvv_exp">
-    <div class="expDate_div">
-      <label for="month">Month / Year</label>
-      <input class="date" type="tel" maxlength="2" minlength="2" name="expDate" id="month" (keyup)="expMonthCheck()" [value]="expMonthValue" [(ngModel)]="expMonthValue" required>
-      <span>/</span>
-      <input class="date" type="tel" maxlength="2" minlength="2" name="expDate" id="year" (keyup)="expYearCheck()" [value]="expYearValue" [(ngModel)]="expYearValue" required>
+      <div class="cvv_div">
+        <label for="cvv">CVV</label>
+        <input type="number" name="cvv" id="cvv" required ngModel [value]="cvvValue" [(ngModel)]="cvvValue" (keyup)="cvvCheck()">
+      </div>
     </div>
-
-    <div class="cvv_div">
-      <label for="cvv">CVV</label>
-      <input type="number" name="cvv" id="cvv" required ngModel [value]="cvvValue" [(ngModel)]="cvvValue" (keyup)="cvvCheck()">
-    </div>
-  </div>
-  <p *ngIf="wrongCVV" class="error">Wrong CVV!</p>
-  <p *ngIf="wrongMonthDate" class="error">Month number can be in range from 01 to 12</p>
-  <p *ngIf="wrongYearDate" class="error">Year number can be in range from 00 to 99</p>
-  <p *ngIf="wrongDate" class="error">Your card has expired!</p>
-  <input [disabled]="nameReg || numberReg || wrongDate || wrongYearDate || wrongMonthDate || wrongCVV" type="submit" class="button" id="submit" value="Pay {{amount}} {{currency}}">
-</form>
+    <p *ngIf="wrongCVV" class="error">Wrong CVV!</p>
+    <p *ngIf="wrongMonthDate" class="error">Month number can be in range from 01 to 12</p>
+    <p *ngIf="wrongYearDate" class="error">Year number can be in range from 00 to 99</p>
+    <p *ngIf="wrongDate" class="error">Your card has expired!</p>
+    <input [disabled]="wrongName || wrongCardNumber || wrongDate || wrongYearDate || wrongMonthDate || wrongCVV" type="submit" class="button" id="submit" value="Pay {{amount}} {{currency}}">
+  </form>
 
 </div>
 

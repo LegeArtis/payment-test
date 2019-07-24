@@ -7,10 +7,11 @@ import {PaymentServiceService} from '../payment-service.service';
   styleUrls: ['./payment.component.css']
 })
 export class PaymentComponent implements OnInit {
-  paymentMethods: PaymentMethod[];
-  selectedMethod: PaymentMethod;
   amount = 5;
   currency = 'USD';
+
+  paymentMethods: PaymentMethod[];
+  selectedMethod: PaymentMethod;
   cvvValue;
   expMonthValue;
   expYearValue;
@@ -18,8 +19,8 @@ export class PaymentComponent implements OnInit {
   wrongMonthDate = false;
   wrongYearDate = false;
   wrongDate = false;
-  nameReg = false;
-  numberReg = false;
+  wrongName = false;
+  wrongCardNumber = false;
   wrongCVV = false;
 
   successfullyPayment = false;
@@ -111,12 +112,12 @@ export class PaymentComponent implements OnInit {
   }
 
   cardHolderName(name) {
-    name.match(/^[\s]|\s$|[^A-Za-z\s]/) ? this.nameReg = true : this.nameReg = false;
+    name.match(/^[\s]|\s$|[^A-Za-z\s]/) ? this.wrongName = true : this.wrongName = false;
   }
 
   cardNumberInput(number) {
-    number.toString().length === 16 ? (this.numberReg = this.luhnAlgorithm(number)) : this.numberReg = true;
-    console.log(this.numberReg);
+    number.toString().length === 16 ? (this.wrongCardNumber = this.luhnAlgorithm(number)) : this.wrongCardNumber = true;
+    console.log(this.wrongCardNumber);
   }
 
  private luhnAlgorithm(digits) {
